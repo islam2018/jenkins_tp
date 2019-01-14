@@ -16,7 +16,7 @@ pipeline {
    
     stage('Code Analysis') {
           steps {
-            withSonarQubeEnv('http://localhost:9000') {
+            withSonarQubeEnv('sonarqube') {
               bat 'sonar-scanner'
             }
 
