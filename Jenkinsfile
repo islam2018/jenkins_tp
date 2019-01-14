@@ -6,6 +6,8 @@ pipeline {
         bat 'gradle build'
         bat 'gradle javadoc'
         bat 'gradle jar'
+        archiveArtifacts 'build/libs/*.jar'
+        archiveArtifcats 'build/docs/javadoc/'
       }
     }
     stage('Mail Notification') {
@@ -15,12 +17,14 @@ pipeline {
     }
    
     stage('Code Analysis') {
+      parallel {
+        stage('Code Analysis') {
           steps {
             withSonarQubeEnv('sonarqube') {
               bat 'sonar-scanner'
             }
 
-            waitForQualityGate true
+           // waitForQualityGate true
           }
         }
     stage('Test Reporting') {
@@ -28,16 +32,18 @@ pipeline {
             jacoco(maximumBranchCoverage: '70')
           }
         }
+      }
       
     
     stage('Deployement') {
+     
       steps {
         bat 'gradle uploadArchives'
       }
     }
     stage('Slack Notification') {
       steps {
-        slackSend(baseUrl: 'https://jenkinssiege.slack.com/messages/CFC8X1FFV/', channel: '#tpjenkins')
+        slackSend(messege: '"Testing Jenkins"')
       }
     }
   }
