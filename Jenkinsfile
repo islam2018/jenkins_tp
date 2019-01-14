@@ -36,12 +36,21 @@ pipeline {
       
     
     stage('Deployement') {
-     
+     when{
+            NOT{
+              changeRequest target : 'master'
+            }
+          }
       steps {
         bat 'gradle uploadArchives'
       }
     }
     stage('Slack Notification') {
+	    when{
+            NOT{
+              changeRequest target : 'master'
+            }
+          }
       steps {
         slackSend(message: '"Testing Jenkins"')
       }
