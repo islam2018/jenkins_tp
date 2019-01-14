@@ -23,7 +23,7 @@ pipeline {
             withSonarQubeEnv('sonarqube') {
               bat 'sonar-scanner'
             }
-           // waitForQualityGate true
+           waitForQualityGate true
           }
         }
     stage('Test Reporting') {
