@@ -8,49 +8,45 @@
 
 plugins {
     // Apply the java-library plugin to add support for Java Library
-
-    id 'jacoco' 
+    id 'java-library'
+    id 'jacoco'
 
 }
-apply plugin: 'java'
+
+group "matrix"
+version "1.0"
 
 dependencies {
+    // This dependency is exported to consumers, that is to say found on their compile classpath.
+    api 'org.apache.commons:commons-math3:3.6.1'
    
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:23.0'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
 }
+
+
 
 // In this section you declare where to find the dependencies of your project
 repositories {
+   
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
-   
     jcenter()
+    
+    
 }
 
 
-task generateMatrixAPI(type:Copy) {
-	
-	dependsOn "build"
-	destinationDir = file ('D:/MatrixRelease/Matrix_v_1.0')
-	from ('build/reports/tests/test') {
-	into 'TestReports'
-	}
-	
-	from ('build/reports/pitest') {
-	into 'TestQualityReports'
-	}
-	from ('build/jacocoHTML') {
-	into 'TestQualityReports/Couverture'
-	}
-	from ('build/docs') {
-	into 'Documentation'
-	}
-	from ('build/libs') {
-	into 'API'
-	}
-}
+
+
+
 
 task uploadArchives {
-	dependsOn "generateMatrixAPI"
+
     repositories {
         maven {
             credentials {
@@ -61,3 +57,11 @@ task uploadArchives {
         }
     }
 }
+
+
+
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+
