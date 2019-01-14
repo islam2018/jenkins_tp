@@ -43,7 +43,7 @@ pipeline {
     }
     stage('Slack Notification') {
       steps {
-        slackSend(messege: '"Testing Jenkins"')
+        slackSend(message: '"Testing Jenkins"')
       }
     }
   }
