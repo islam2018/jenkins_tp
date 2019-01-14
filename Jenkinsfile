@@ -7,12 +7,12 @@ pipeline {
         bat 'gradle javadoc'
         bat 'gradle jar'
         archiveArtifacts 'build/libs/*.jar'
-        archiveArtifcats 'build/docs/javadoc/'
+        archiveArtifacts 'build/docs/javadoc/'
       }
     }
     stage('Mail Notification') {
       steps {
-        mail(to: 'fm_bouayache@esi.dz', subject: 'Notification Build', body: 'Build reuussi')
+        mail(to: 'fm_bouayache@esi.dz', subject: 'Notification Build', body: 'Build reussi')
       }
     }
    
